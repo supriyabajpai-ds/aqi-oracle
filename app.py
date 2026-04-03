@@ -435,13 +435,14 @@ if not os.path.exists(CSV_PATH):
         return train_random_forest_model(df)
     
     model, model_r2 = load_model()
-    
-    if model is None:
-        st.stop()
+    try:
+          model = load_model()
+          if model is None:
+                st.stop()
 
     except Exception as e:
-    st.error(f"❌ Error loading data: {str(e)}")
-    st.stop()
+        st.error(f"❌ Error loading data: {str(e)}")
+        st.stop()
 
 # ── UI ────────────────────────────────────────────────────────────────────────
 left, right = st.columns([1, 1.5], gap="large")
