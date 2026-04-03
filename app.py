@@ -405,38 +405,38 @@ def train_random_forest_model(df):
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 CSV_PATH = os.path.join(BASE_DIR, "data", "city_day.csv")
 
-if not os.path.exists(CSV_PATH):
-    st.error(f"❌ Missing {CSV_PATH}")
-    st.stop()
+try:
+    if not os.path.exists(CSV_PATH):
+        st.error(f"❌ Missing {CSV_PATH}")
+        st.stop()
 
     df = pd.read_csv(CSV_PATH)
-    
+
     # Clean data
     df['PM2.5'] = df['PM2.5'].fillna(df['PM2.5'].median())
     for col in POLLUTANT_COLS + ['AQI']:
         df[col] = pd.to_numeric(df[col], errors='coerce').fillna(df[col].median())
     df['AQI_Bucket'] = df['AQI_Bucket'].fillna('MODERATE')
-    
+
     df['Date'] = pd.to_datetime(df['Date'], errors='coerce')
     df['Month'] = df['Date'].dt.month
     df['Season'] = df['Month'].apply(get_season)
-    
+
     city_mean = df.groupby('City')['AQI'].mean().to_dict()
     df['City_Mean_AQI'] = df['City'].map(city_mean)
-    
+
     city_pol_med = df.groupby('City')[POLLUTANT_COLS].median().to_dict(orient='index')
     cities_in_data = sorted(df['City'].dropna().unique().tolist())
-    
+
     # Add missing cities
     all_cities = sorted(list(set(cities_in_data + list(CITY_COORDS.keys()))))
-    
-    # Train model
+
     @st.cache_resource
     def load_model():
         return joblib.load("aqi_model.pkl"), 0.88
-    
+
     model, model_r2 = load_model()
-    
+
     if model is None:
         st.stop()
 
@@ -684,7 +684,7 @@ with c4:
     st.markdown('<div class="panel-title">MONTHLY PATTERN · ' + selected_city.upper() + '</div>', unsafe_allow_html=True)
     if len(city_df) > 0:
         city_df['Month_num'] = city_df['Date'].dt.month
-        monthly_avg = city_df.groupby('Month_num')['AQI'].mean().reindex(range(1,13), fill_value=city_df['Month_num'].median())
+        monthly_avg = city_df.groupby('Month_num')['AQI'].mean().reindex(range(1,13), fill_value=0)
         month_names = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
         month_colors = ['#dc3545' if v>200 else '#fd7e14' if v>100 else '#28a745' for v in monthly_avg.values]
         fig = go.Figure(go.Bar(x=month_names, y=monthly_avg.values,
