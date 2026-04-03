@@ -349,7 +349,7 @@ This project is licensed under the **MIT License** - see [LICENSE](LICENSE) file
 **Supriya Bajpai**
 - GitHub: [@supriyabajpai-ds](https://github.com/supriyabajpai-ds)
 - Email: 2k23.csdsc2311724@gmail.com
-- LinkedIn: [Supriya Bajpai](https://linkedin.com/in/supriyabajpai-17b419327)
+- LinkedIn: [Supriya Bajpai](www.linkedin.com/in/supriya-bajpai-17b419327)
 
 ---
 
