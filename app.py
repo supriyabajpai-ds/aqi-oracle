@@ -402,15 +402,14 @@ def train_random_forest_model(df):
         st.error(f"❌ Model training failed: {e}")
         return None, None
 
-CSV_PATH = "data/city_day.csv"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+CSV_PATH = os.path.join(BASE_DIR, "data", "city_day.csv")
 
 if not os.path.exists(CSV_PATH):
     st.error(f"❌ Missing {CSV_PATH}")
     st.stop()
 
-try:
     df = pd.read_csv(CSV_PATH)
-    
     # Clean data
     df['PM2.5'] = df['PM2.5'].fillna(df['PM2.5'].median())
     for col in POLLUTANT_COLS + ['AQI']:
@@ -440,7 +439,7 @@ try:
     if model is None:
         st.stop()
 
-except Exception as e:
+    except Exception as e:
     st.error(f"❌ Error loading data: {str(e)}")
     st.stop()
 
@@ -684,7 +683,7 @@ with c4:
     st.markdown('<div class="panel-title">MONTHLY PATTERN · ' + selected_city.upper() + '</div>', unsafe_allow_html=True)
     if len(city_df) > 0:
         city_df['Month_num'] = city_df['Date'].dt.month
-        monthly_avg = city_df.groupby('Month_num')['AQI'].mean().reindex(range(1,13), fill_value=0)
+        monthly_avg = city_df.groupby('Month_num')['AQI'].mean().reindex(range(1,13), fill_value=df['Month'].median())
         month_names = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
         month_colors = ['#dc3545' if v>200 else '#fd7e14' if v>100 else '#28a745' for v in monthly_avg.values]
         fig = go.Figure(go.Bar(x=month_names, y=monthly_avg.values,
