@@ -402,7 +402,7 @@ def train_random_forest_model(df):
         st.error(f"❌ Model training failed: {e}")
         return None, None
 
-CSV_PATH = "city_day.csv"
+CSV_PATH = "data/city_day.csv"
 
 if not os.path.exists(CSV_PATH):
     st.error(f"❌ Missing {CSV_PATH}")
