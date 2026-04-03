@@ -1,85 +1,82 @@
 # 🌍 AQI Oracle - Air Quality Intelligence
 
-A machine learning-powered web application that predicts Air Quality Index (AQI) for Indian cities using **Random Forest** regression and real-time pollutant data integration.
+![Python](https://img.shields.io/badge/Python-3.8+-blue)
+![Streamlit](https://img.shields.io/badge/Streamlit-App-red)
+![ML](https://img.shields.io/badge/MachineLearning-Model-green)
 
-**Live Demo**: [Deploy on Streamlit Cloud](#deployment)
+A **machine learning-powered web application** that predicts Air Quality Index (AQI) for Indian cities using **Random Forest regression** and historical pollutant data.
+
+---
+
+## 🌍 Why This Project?
+
+Air pollution is a major issue in India. This project helps:
+
+* Predict AQI levels for better planning
+* Provide health recommendations
+* Analyze pollution trends using data science
+
+---
+
+## 🚀 Live Demo
+
+👉 https://your-app.streamlit.app *(add after deployment)*
 
 ---
 
 ## ✨ Features
 
 ### 🤖 Machine Learning
-- **Random Forest Model** - Non-linear AQI prediction with 88% accuracy (R² = 0.88)
-- **Used Multiple Model**- XGBoost, Linear Regression and Random Forest
-- **Trained on 29K+ records** from Indian cities
-- **Automatic feature importance** calculation
-- **Fast inference** (<100ms predictions)
 
-### 📍 Geographic Coverage
-- **13 pre-loaded Indian cities** with coordinates
-- **Live API support** for any location (OpenWeatherMap ready)
-- **Graceful fallback** to historical averages for missing data
-- **Automatic city detection** from dropdown
+* Compared multiple models:
 
-### 🎯 Real-Time Pollutants
-Tracks 12 key pollutants:
-- PM2.5, PM10, NO, NO2, NOx, NH3, CO, SO2, O3, Benzene, Toluene, Xylene
-
-### 🎨 Beautiful UI
-- **Cyberpunk aesthetic** with dark theme
-- **3D rotating globe** hero section
-- **Animated gauge chart** showing AQI visualization
-- **Color-coded predictions** (Green → Yellow → Orange → Red → Pink)
-- **5 interactive charts**:
-  - AQI trend over time
-  - Pollutant radar chart
-  - City comparison bar chart
-  - Monthly seasonal patterns
-  - PM2.5 vs AQI scatter plot
-- **Responsive design** - works on desktop, tablet, mobile
-
-### 📊 Data Analytics
-- Historical AQI trends per city
-- Best/worst recorded AQI values
-- Monthly seasonal patterns
-- Pollutant contribution analysis
+  * Linear Regression
+  * Random Forest
+  * XGBoost
+* **Final Model: Random Forest (R² ≈ 0.88)**
+* Handles non-linear AQI patterns
+* Fast predictions (<100ms)
 
 ---
 
-## 🚀 Quick Start
+### 📍 Input
 
-### Prerequisites
-```bash
-Python 3.8+
-pip
-```
+* City selection
+* Date selection
 
-### Installation
+---
 
-1. **Clone the repository**
-```bash
-git clone https://github.com/supriyabajpai-ds/aqi-oracle.git
-cd aqi-oracle
-```
+### 📊 Output
 
-2. **Install dependencies**
-```bash
-pip install -r requirements.txt
-```
+* AQI prediction (0–500 scale)
+* AQI category (Good → Severe)
+* Health recommendations
 
-3. **Prepare data**
-- Place `city_day.csv` in the project root
-- CSV must have columns: Date, City, AQI, AQI_Bucket, and all 12 pollutants
+---
 
-4. **Run the app**
-```bash
-streamlit run aqi_oracle_v6_rf.py
-```
+### 📈 Visualizations
 
-5. **Open browser**
-- Navigate to `http://localhost:8501`
-- Select a city, pick a date
-- Click "⟳ RUN PREDICTION"
+* AQI Trend over time
+* Pollutant Radar Chart
+* City Comparison
+* Monthly Patterns
+* PM2.5 vs AQI Scatter
+
+---
+
+## 📸 Screenshots
+
+### Dashboard
+
+![Dashboard](images/ui.png)
+
+### Prediction Output
+
+![Prediction](images/output.png)
+
+### Charts
+
+![Charts](images/charts.png)
 
 ---
 
@@ -88,160 +85,87 @@ streamlit run aqi_oracle_v6_rf.py
 ```bash
 aq-oracle/
 │
-├── app.py                  # Streamlit UI application
-├── train_model.py          # Model training script
-├── model.pkl               # Trained ML model (XGBoost / Random Forest)
-├── model_experiments.ipynb # Model comparison notebook
+├── app.py                  # Streamlit UI
+├── AQI_PREDICTION.ipynb   # Model experimentation
+├── aqi_model.pkl          # Trained Random Forest model
+├── scaler.pkl             # (optional)
+│
 ├── data/
-│   └── city_day.csv        # Dataset used for training
-├── requirements.txt        # Dependencies
-└── README.md               # Project documentation
+│   └── city_day.csv
+│
+├── docs/
+│   ├── project_overview.md
+│   └── api.md
+│
+├── .streamlit/
+│   └── config.toml
+│
+├── Dockerfile
+├── requirements.txt
+├── LICENSE
+└── README.md
+```
+
+---
+
+## 📊 Model Comparison
+
+| Model             | R² Score | Notes            |
+| ----------------- | -------- | ---------------- |
+| Linear Regression | 0.72     | Baseline         |
+| Random Forest     | 0.88 ✅   | Selected         |
+| XGBoost           | 0.87     | High performance |
+
+👉 **Final Model Used in App: Random Forest**
+
 ---
 
 ## 📈 Model Performance
 
-| Metric | Value |
-|--------|-------|
-| **R² Score** | 0.8830 |
-| **MAE** | 19.86 AQI points |
-| **Algorithm** | Random Forest (100 trees) |
-| **Training Data** | 29,000+ samples |
-| **Features** | 15 (12 pollutants + temporal) |
-| **Prediction Time** | <100ms |
-
-### Why Random Forest?
-✅ Captures non-linear pollutant-AQI relationships  
-✅ Handles feature interactions (PM2.5 × NO2)  
-✅ No scaling needed (scale-invariant)  
-✅ Robust to outliers  
-✅ Automatic feature importance  
+| Metric        | Value     |
+| ------------- | --------- |
+| R² Score      | ~0.88     |
+| MAE           | ~20 AQI   |
+| Training Data | 29K+ rows |
+| Features      | 15        |
 
 ---
 
-## 🌐 Live Data Integration
+## ⚙️ How It Works
 
-### OpenWeatherMap API (Optional)
-
-To enable real-time pollutant data for missing cities:
-
-1. **Sign up** at [openweathermap.org](https://openweathermap.org/api/air-pollution)
-2. **Get free API key** (1000 calls/day)
-3. **Update the function** in `aqi_oracle_v6_rf.py`:
-
-```python
-def fetch_live_pollutants(city_name):
-    lat, lon = CITY_COORDS[city_name]
-    api_key = "YOUR_API_KEY"
-    
-    url = f"https://api.openweathermap.org/data/2.5/air_pollution?lat={lat}&lon={lon}&appid={api_key}"
-    response = requests.get(url, timeout=5)
-    data = response.json()
-    
-    components = data['list'][0]['components']
-    return {
-        'PM2.5': components.get('pm2_5', 0),
-        'PM10': components.get('pm10', 0),
-        # ... (rest of pollutants)
-    }
+```
+User Input → Data Processing → ML Model → Prediction → Visualization
 ```
 
 ---
 
-## 🎛️ Configuration
+## 🛠️ Installation
 
-### Supported Cities (with pre-loaded data)
-Delhi, Mumbai, Bengaluru, Kolkata, Chennai, Hyderabad, Ahmedabad, Lucknow, Pune, Kanpur, Jaipur, Patna, Srinagar
+### 1. Clone repo
 
-### Customize Colors
-Edit `aqi_info()` function in `aqi_oracle_v6_rf.py`:
-
-```python
-def aqi_info(v):
-    if v <= 50:   return "#28a745", "GOOD", "..."        # Green
-    if v <= 100:  return "#a3c639", "SATISFACTORY", "..."  # Yellow
-    if v <= 200:  return "#f0ad4e", "MODERATE", "..."      # Orange
-    if v <= 300:  return "#fd7e14", "POOR", "..."          # Red
-    if v <= 400:  return "#dc3545", "VERY POOR", "..."     # Dark Red
-    return "#ff3366", "SEVERE", "..."                       # Pink
-```
-
-### Adjust Model Parameters
-Edit `train_random_forest_model()`:
-
-```python
-model = RandomForestRegressor(
-    n_estimators=100,    # More trees = better but slower
-    max_depth=15,        # Deeper = more overfitting risk
-    random_state=42,     # For reproducibility
-    n_jobs=-1            # Use all CPU cores
-)
-```
-
----
-
-## 📊 Data Format
-
-Your `city_day.csv` should have this structure:
-
-```csv
-Date,City,AQI,AQI_Bucket,PM2.5,PM10,NO,NO2,NOx,NH3,CO,SO2,O3,Benzene,Toluene,Xylene
-2023-01-01,Delhi,285,POOR,183.9,256.9,58.4,108.4,167.0,9.2,3150.0,23.4,15.6,45.3,12.1,4.2
-2023-01-02,Delhi,265,POOR,165.2,234.5,52.1,95.6,147.8,8.9,2980.0,21.1,14.2,42.1,11.5,3.9
-...
-```
-
-**Requirements:**
-- At least 1,000 rows (more = better)
-- No missing Date or City values
-- AQI values in range 0-500
-- All 12 pollutants present (use median for missing values)
-
----
-
-## 🔍 Features Explained
-
-### Prediction Output
-1. **Stat Cards** - City average, best, and worst recorded AQI
-2. **Gauge Chart** - Large, color-coded prediction with scale
-3. **Health Advice** - Specific guidance based on AQI level
-4. **Info Chips** - City, date, and season reference
-
-### Analytics Section
-1. **AQI Trend** - Monthly averages over time
-2. **Pollutant Radar** - 6-point radar showing each pollutant
-3. **City Comparison** - Top 10 most polluted cities
-4. **Monthly Pattern** - Seasonal variations
-5. **PM2.5 vs AQI** - Correlation scatter plot
-
----
-
-## 🛠️ Troubleshooting
-
-### "Missing city_day.csv"
 ```bash
-# Make sure CSV is in project root
-ls -la city_day.csv
+git clone https://github.com/supriyabajpai-ds/aq-oracle.git
+cd aq-oracle
 ```
 
-### "Insufficient training data"
-```python
-# Check data in CSV
-import pandas as pd
-df = pd.read_csv('city_day.csv')
-print(df.shape)  # Should be (rows, columns)
-print(df.isnull().sum())  # Check for missing values
-```
+### 2. Install dependencies
 
-### "Predictions don't look realistic"
-- Check CSV for outliers (extreme AQI values)
-- Verify pollutant values are in expected ranges
-- Try retraining with more diverse data
-
-### "Charts not rendering"
 ```bash
-# Clear Streamlit cache
-rm -rf ~/.streamlit/cache/
-streamlit run aqi_oracle_v6_rf.py
+pip install -r requirements.txt
+```
+
+### 3. Add dataset
+
+Place:
+
+```
+data/city_day.csv
+```
+
+### 4. Run app
+
+```bash
+streamlit run app.py
 ```
 
 ---
@@ -249,144 +173,65 @@ streamlit run aqi_oracle_v6_rf.py
 ## 📦 Requirements
 
 ```
-streamlit==1.28.0
-pandas==2.0.0
-numpy==1.24.0
-plotly==5.17.0
-scikit-learn==1.3.0
-requests==2.31.0
-joblib==1.3.0
+streamlit
+pandas
+numpy
+plotly
+scikit-learn
+requests
+joblib
 ```
 
 ---
 
 ## 🌐 Deployment
 
-### Option 1: Streamlit Cloud (Recommended)
+### Streamlit Cloud
 
-1. **Push to GitHub** (see below)
-2. **Go to** [share.streamlit.io](https://share.streamlit.io)
-3. **Click** "New app"
-4. **Select** your repository and `aqi_oracle_v6_rf.py`
-5. **Deploy!** ✅
-
-### Option 2: Heroku
-```bash
-# Install Heroku CLI
-heroku create aqi-oracle
-git push heroku main
-```
-
-### Option 3: Docker
-```bash
-docker build -t aqi-oracle .
-docker run -p 8501:8501 aqi-oracle
-```
+1. Push to GitHub
+2. Go to https://streamlit.io/cloud
+3. Select repo + `app.py`
+4. Deploy 🚀
 
 ---
 
-## 🔑 Key Cities & Coordinates
+## 🧠 Key Highlights
 
-| City | Latitude | Longitude |
-|------|----------|-----------|
-| Delhi | 28.6139 | 77.2090 |
-| Mumbai | 19.0760 | 72.8777 |
-| Bengaluru | 12.9716 | 77.5946 |
-| Kolkata | 22.5726 | 88.3639 |
-| Chennai | 13.0827 | 80.2707 |
-| Hyderabad | 17.3850 | 78.4867 |
-| Ahmedabad | 23.0225 | 72.5714 |
-| Lucknow | 26.8467 | 80.9462 |
-| Pune | 18.5204 | 73.8567 |
+* End-to-end ML project
+* Real-world dataset
+* Interactive dashboard
+* Clean UI with animations
+* Deployment-ready
 
 ---
 
-## 📚 Additional Resources
+## 📋 Future Improvements
 
-- [Streamlit Documentation](https://docs.streamlit.io)
-- [Plotly Gauge Charts](https://plotly.com/python/gauge-charts/)
-- [Scikit-learn Random Forest](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestRegressor.html)
-- [OpenWeatherMap Air Pollution API](https://openweathermap.org/api/air-pollution)
-- [AQI Explanation](https://www.epa.gov/air-quality/air-quality-index-aqi)
-
----
-
-## 📋 Roadmap
-
-- [ ] XGBoost model for comparison
-- [ ] User authentication & saved predictions
-- [ ] Historical prediction accuracy tracking
-- [ ] Mobile app (React Native)
-- [ ] Multi-country support
-- [ ] Real-time data ingestion pipeline
-- [ ] Advanced feature engineering
-- [ ] Ensemble models
-- [ ] Prediction confidence intervals
-- [ ] API endpoint for predictions
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome! Please:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit changes (`git commit -m 'Add amazing feature'`)
-4. Push to branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
----
-
-## 📄 License
-
-This project is licensed under the **MIT License** - see [LICENSE](LICENSE) file for details.
+* Add XGBoost deployment
+* Real-time API integration
+* Mobile app
+* Multi-country support
 
 ---
 
 ## 👤 Author
 
 **Supriya Bajpai**
-- GitHub: [@supriyabajpai-ds](https://github.com/supriyabajpai-ds)
-- Email: 2k23.csdsc2311724@gmail.com
-- LinkedIn: [Supriya Bajpai](www.linkedin.com/in/supriya-bajpai-17b419327)
+
+* GitHub: https://github.com/supriyabajpai-ds
+* LinkedIn: https://www.linkedin.com/in/supriya-bajpai-17b419327
+* Email: [2k23.csdsc2311724@gmail.com](mailto:2k23.csdsc2311724@gmail.com)
 
 ---
 
-## 🙏 Acknowledgments
+## ⭐ Support
 
-- **Data Source**: Indian government air quality databases
-- **Libraries**: Streamlit, Plotly, scikit-learn, pandas
-- **Inspiration**: OpenWeatherMap, EPA AQI scale
+If you like this project:
 
----
-
-## 📞 Support
-
-If you have questions or issues:
-
-1. **Check the docs** in `/docs` folder
-2. **Search existing issues** on GitHub
-3. **Create a new issue** with:
-   - Description of problem
-   - Steps to reproduce
-   - Expected vs actual behavior
-   - Python & package versions
-   - Screenshots (if applicable)
+* ⭐ Star the repo
+* 🔗 Share it
+* 🐛 Report issues
 
 ---
 
-## ⭐ Show Your Support
-
-If this project helped you, please:
-- ⭐ Star the repository
-- 🔗 Share with others
-- 💬 Provide feedback
-- 🐛 Report bugs
-- 📝 Suggest improvements
-
----
-
-**Made with ❤️ by Supriya Bajpai**
-
-*Predicting air quality, one city at a time.* 🌍✨
+**Made with ❤️ using Machine Learning + Streamlit**
