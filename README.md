@@ -10,6 +10,7 @@ A machine learning-powered web application that predicts Air Quality Index (AQI)
 
 ### 🤖 Machine Learning
 - **Random Forest Model** - Non-linear AQI prediction with 88% accuracy (R² = 0.88)
+- **Used Multiple Model**- XGBoost, Linear Regression and Random Forest
 - **Trained on 29K+ records** from Indian cities
 - **Automatic feature importance** calculation
 - **Fast inference** (<100ms predictions)
@@ -82,22 +83,19 @@ streamlit run aqi_oracle_v6_rf.py
 
 ---
 
-## 📂 Project Structure
+## 📁 Project Structure
 
-```
-aqi-oracle/
-├── aqi_oracle_v6_rf.py          # Main Streamlit app
-├── city_day.csv                  # Training data (29K+ records)
-├── requirements.txt              # Python dependencies
-├── README.md                      # This file
-├── LICENSE                        # MIT License
-├── .gitignore                     # Git ignore rules
-└── docs/
-    ├── SETUP_GUIDE.md           # Detailed setup instructions
-    ├── API_INTEGRATION.md        # Live data API setup
-    └── MODEL_INFO.md            # ML model details
-```
-
+```bash
+aq-oracle/
+│
+├── app.py                  # Streamlit UI application
+├── train_model.py          # Model training script
+├── model.pkl               # Trained ML model (XGBoost / Random Forest)
+├── model_experiments.ipynb # Model comparison notebook
+├── data/
+│   └── city_day.csv        # Dataset used for training
+├── requirements.txt        # Dependencies
+└── README.md               # Project documentation
 ---
 
 ## 📈 Model Performance
@@ -350,8 +348,8 @@ This project is licensed under the **MIT License** - see [LICENSE](LICENSE) file
 
 **Supriya Bajpai**
 - GitHub: [@supriyabajpai-ds](https://github.com/supriyabajpai-ds)
-- Email: supriyabajpai.ds@gmail.com
-- LinkedIn: [Supriya Bajpai](https://linkedin.com/in/supriyabajpai)
+- Email: 2k23.csdsc2311724@gmail.com
+- LinkedIn: [Supriya Bajpai](https://linkedin.com/in/supriyabajpai-17b419327)
 
 ---
 
