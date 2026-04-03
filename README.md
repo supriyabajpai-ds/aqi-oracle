@@ -20,7 +20,7 @@ Air pollution is a major issue in India. This project helps:
 
 ## 🚀 Live Demo
 
-👉 https:[//your-app.streamlit.app *(add after deployment)*](://aqi-oracle-ypzzz6uypkpwp4tskv8qhb.streamlit.app/)
+👉 https:[//your-app.streamlit.app *(add after deployment)*](https://aqi-oracle-ypzzz6uypkpwp4tskv8qhb.streamlit.app/)
 
 ---
 
